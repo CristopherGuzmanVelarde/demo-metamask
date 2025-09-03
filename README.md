@@ -1,6 +1,4 @@
 <div align="center">
-  
-<img src="https://user-images.githubusercontent.com/1234567/89123456-123456789-d456789.png" alt="CryptoLink Banner" width="100%"/>
 
 # 🔗 **CryptoLink**
 ### *MetaMask Neural Interface*
