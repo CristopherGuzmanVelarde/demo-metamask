@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoLink - MetaMask Terminal</title>
+    <link rel="stylesheet" href="styles-improved.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="matrix-bg"></div>
+    <div class="particle-container" id="particles"></div>
+    
+    <div class="app-container">
+        <!-- Header mejorado -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-hexagon">
+                        <div class="hexagon-inner">₿</div>
+                    </div>
+                    <div class="logo-text">
+                        <h1 class="app-title glitch" data-text="CRYPTOLINK">CRYPTOLINK</h1>
+                        <p class="app-subtitle">MetaMask Neural Interface</p>
+                    </div>
+                </div>
+                
+                <div class="header-status">
+                    <div class="price-display" id="priceTicker" style="display: none;">
+                        <span class="price-label">ETH</span>
+                        <span class="price-value" id="ethPrice">$0.00</span>
+                    </div>
+                    <div class="connection-status">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span id="connectionIndicator">OFFLINE</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="app-main">
+            <!-- Panel de conexión -->
+            <div id="connectionPanel" class="connection-panel">
+                <div class="connection-card">
+                    <div class="card-header">
+                        <div class="connection-icon">🔌</div>
+                        <h2>Wallet Connection</h2>
+                    </div>
+                    
+                    <div class="connection-status-display">
+                        <div class="status-progress-bar">
+                            <div class="progress-fill" id="statusProgress"></div>
+                        </div>
+                        <p id="statusText" class="status-message">Ready to connect</p>
+                    </div>
+                    
+                    <button id="connectBtn" class="connect-button">
+                        <span class="btn-icon">⚡</span>
+                        <span class="btn-text">Connect MetaMask</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard principal -->
+            <div id="mainDashboard" class="dashboard" style="display: none;">
+                
+                <!-- Panel de información de wallet -->
+                <div class="wallet-panel">
+                    <div class="wallet-card">
+                        <div class="wallet-header">
+                            <div class="wallet-avatar">
+                                <div class="avatar-gradient"></div>
+                                <span class="avatar-icon">👤</span>
+                            </div>
+                            <div class="wallet-info">
+                                <div class="wallet-address-section">
+                                    <span id="accountAddress" class="wallet-address"></span>
+                                    <button id="copyBtn" class="copy-button">
+                                        <span class="copy-icon">📋</span>
+                                    </button>
+                                </div>
+                                <div class="wallet-network">
+                                    <span class="network-dot"></span>
+                                    <span id="networkName" class="network-name">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="balance-section">
+                            <div class="balance-header">
+                                <span class="balance-label">Total Balance</span>
+                                <button id="refreshBalances" class="refresh-button">🔄</button>
+                            </div>
+                            <div id="mainBalance" class="main-balance">0.0000 ETH</div>
+                            <div id="mainBalanceUSD" class="balance-usd">$0.00 USD</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel de control de redes -->
+                <div class="network-panel">
+                    <div class="panel-header">
+                        <h3>🌐 Networks</h3>
+                    </div>
+                    
+                    <div class="network-quick-switch">
+                        <button id="switchToHolesky" class="network-card">
+                            <div class="network-icon holesky">🔥</div>
+                            <div class="network-details">
+                                <div class="network-name">Holesky</div>
+                                <div class="network-type">Testnet</div>
+                            </div>
+                            <div class="network-status"></div>
+                        </button>
+                        
+                        <button id="switchToSepolia" class="network-card">
+                            <div class="network-icon sepolia">🧪</div>
+                            <div class="network-details">
+                                <div class="network-name">Sepolia</div>
+                                <div class="network-type">Testnet</div>
+                            </div>
+                            <div class="network-status"></div>
+                        </button>
+                    </div>
+
+                    <div class="network-selector">
+                        <button id="dropdownBtn" class="network-dropdown">
+                            <span class="dropdown-icon">🌍</span>
+                            <span id="selectedNetwork">Choose Network</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div id="dropdownMenu" class="dropdown-menu">
+                            <!-- Opciones dinámicas -->
+                        </div>
+                    </div>
+
+                    <div id="selectedNetworkBalance" class="network-balance">
+                        <!-- Balance de red seleccionada -->
+                    </div>
+                </div>
+
+                <!-- Panel de operaciones -->
+                <div class="operations-panel">
+                    <div class="panel-header">
+                        <h3>⚡ Operations</h3>
+                    </div>
+
+                    <!-- Navegación de operaciones -->
+                    <div class="operations-nav">
+                        <button class="op-nav-btn active" data-tab="send">
+                            <div class="op-icon">💸</div>
+                            <span>Send</span>
+                        </button>
+                        <button class="op-nav-btn" data-tab="contract">
+                            <div class="op-icon">📋</div>
+                            <span>Contract</span>
+                        </button>
+                        <button class="op-nav-btn" data-tab="sign">
+                            <div class="op-icon">✍️</div>
+                            <span>Sign</span>
+                        </button>
+                        <button class="op-nav-btn" data-tab="history">
+                            <div class="op-icon">📊</div>
+                            <span>History</span>
+                        </button>
+                    </div>
+
+                    <!-- Contenido de operaciones -->
+                    <div class="operations-content">
+                        
+                        <!-- Send ETH -->
+                        <div id="sendTab" class="op-content active">
+                            <div class="op-form">
+                                <div class="form-group">
+                                    <label class="form-label">Recipient Address</label>
+                                    <input type="text" id="recipientAddress" class="form-input" placeholder="0x...">
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Amount (ETH)</label>
+                                        <input type="number" id="sendAmount" class="form-input" placeholder="0.001" step="0.001" min="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Gas (Gwei)</label>
+                                        <div class="input-group">
+                                            <input type="number" id="gasPrice" class="form-input" placeholder="Auto">
+                                            <button id="estimateGas" class="estimate-btn">EST</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button id="sendTransaction" class="action-button primary">
+                                    <span class="btn-icon">🚀</span>
+                                    <span>Send Transaction</span>
+                                </button>
+                                
+                                <div id="transactionStatus" class="operation-status"></div>
+                            </div>
+                        </div>
+
+                        <!-- Smart Contracts -->
+                        <div id="contractTab" class="op-content">
+                            <div class="op-form">
+                                <div class="form-group">
+                                    <label class="form-label">Contract Address</label>
+                                    <input type="text" id="contractAddress" class="form-input" placeholder="0x...">
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Function</label>
+                                        <input type="text" id="functionName" class="form-input" placeholder="balanceOf">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Value (ETH)</label>
+                                        <input type="number" id="contractValue" class="form-input" placeholder="0" step="0.001" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Parameters</label>
+                                    <input type="text" id="functionParams" class="form-input" placeholder="param1, param2, ...">
+                                </div>
+                                
+                                <div class="action-buttons">
+                                    <button id="callContract" class="action-button secondary">
+                                        <span class="btn-icon">👁️</span>
+                                        <span>Call</span>
+                                    </button>
+                                    <button id="sendContract" class="action-button primary">
+                                        <span class="btn-icon">📝</span>
+                                        <span>Send</span>
+                                    </button>
+                                </div>
+                                
+                                <div id="contractResult" class="operation-status"></div>
+                            </div>
+                        </div>
+
+                        <!-- Sign Message -->
+                        <div id="signTab" class="op-content">
+                            <div class="op-form">
+                                <div class="form-group">
+                                    <label class="form-label">Message to Sign</label>
+                                    <textarea id="messageToSign" class="form-textarea" placeholder="Enter your message here..." rows="4"></textarea>
+                                </div>
+                                
+                                <button id="signMessage" class="action-button primary">
+                                    <span class="btn-icon">✍️</span>
+                                    <span>Sign Message</span>
+                                </button>
+                                
+                                <div id="signatureResult" class="operation-status"></div>
+                            </div>
+                        </div>
+
+                        <!-- History -->
+                        <div id="historyTab" class="op-content">
+                            <div class="history-header">
+                                <h4>Transaction History</h4>
+                                <div class="history-actions">
+                                    <button id="refreshHistory" class="icon-button">🔄</button>
+                                    <button id="clearHistory" class="icon-button danger">🗑️</button>
+                                </div>
+                            </div>
+                            
+                            <div id="transactionHistory" class="history-list">
+                                <div class="empty-state">
+                                    <div class="empty-icon">📭</div>
+                                    <p>No transactions yet</p>
+                                    <small>Your transaction history will appear here</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel de desconexión -->
+                <div class="disconnect-section">
+                    <button id="disconnectBtn" class="disconnect-button">
+                        <span class="btn-icon">🔌</span>
+                        <span>Disconnect</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Error panel -->
+        <div id="errorMessage" class="error-toast" style="display: none;">
+            <div class="error-content">
+                <span class="error-icon">⚠️</span>
+                <p id="errorText" class="error-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="script-improved.js"></script>
+</body>
+</html>
