@@ -334,23 +334,7 @@ Este proyecto está bajo la **Licencia MIT** 📜
 
 </div>
 
----
 
-<div align="center">
-
-### **🚀 ¡Hecho con ❤️ para la comunidad Web3!**
-
-<img src="https://user-images.githubusercontent.com/1234567/89123456-123456789-d456789.png" alt="Footer Banner" width="100%"/>
-
-**⭐ Si te gusta este proyecto, ¡dale una estrella!**
-
-<p>
-  <a href="https://twitter.com/intent/tweet?text=Check%20out%20CryptoLink%20-%20An%20amazing%20MetaMask%20interface!&url=https://github.com/your-username/cryptolink-metamask">
-    <img src="https://img.shields.io/twitter/url?style=social&url=https://github.com/your-username/cryptolink-metamask" alt="Tweet">
-  </a>
-</p>
-
----
 
 *© 2025 CryptoLink Project. Construyendo el futuro de Web3, una conexión a la vez.* 🌟
 
